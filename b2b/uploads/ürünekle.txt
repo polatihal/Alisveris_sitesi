@@ -1,0 +1,100 @@
+<div class="tile">
+<h3 class="tile-title">Yeni Ürün Ekle</h3>
+<form action="" method="POST" enctype="multipart/form-data">
+<div class="tile-body">
+
+<div class="form-group">
+<label class="control-label">Ürün Kodu</label>
+<input class="form-control" value="<?php echo $row->urunkodu	;?>" name="pcode" type="text" placeholder="Ürün Kodu">
+</div>
+
+<div class="form-group">
+<label class="control-label">Ürün Adı</label>
+<input class="form-control" value="<?php echo $row->urunbaslik	;?>" name="pname" type="text" placeholder="Ürün Adı">
+</div>
+
+<div class="form-group">
+<label class="control-label">Ürün SEO URL (örn: asus-pc-i5)</label>
+<input class="form-control" value="<?php echo $row->urunsef;?>" name="purl" type="text" placeholder="Ürün SEO URL">
+</div>
+
+<div class="form-group">
+<label class="control-label">Ürün Kategorisi</label>
+<select name="pcat" class="form-control">
+<option value="0">Kategori seçiniz</option>
+<?php 
+    $cat = $db->prepare("SELECT * FROM urun_kategoriler WHERE katdurum=:d");
+    $cat->execute([':d' => 1]);
+    if($cat->rowCount()){
+        foreach($cat as $ca){
+            ?>
+            <option <?php echo $ca['id'] == $row->urunkat ? 'selected' : null;?> value="<?php echo $ca['id'];?>"><?php echo $ca['katbaslik'];?></option>
+            <?php 
+        }
+    }
+?>
+</select>
+</div>
+
+
+
+<div class="form-group">
+<label class="control-label">Ürün Kapak Resim</label>
+<img src="<?php echo $site;?>/uploads/product/<?php echo $row->urunkapak;?>" width="100" height="100" /><span style="color:#b10021">(Değiştirmek istemiyorsanız resim seçmeyiniz..)</span>
+<input class="form-control" type="file" name="pimage">
+</div>
+
+<div class="form-group">
+<label class="control-label">Ürün Stok Adet</label>
+<input class="form-control" value="<?php echo $row->urunstok;?>" name="pstock" type="number" placeholder="Ürün Stok Adet">
+</div>
+
+<div class="form-group">
+<label class="control-label">Ürün Fiyat</label>
+<input class="form-control" value="<?php echo $row->urunfiyat;?>" name="pprice" type="text" placeholder="Ürün fiyat">
+</div>
+
+<div class="form-group">
+<label class="control-label">Ürün SEO Keywords</label>
+<input class="form-control" value="<?php echo $row->urunkeyw;?>" name="pseok" type="text" placeholder="Ürün SEO Keywords">
+</div>
+
+<div class="form-group">
+<label class="control-label">Ürün SEO Description</label>
+<input class="form-control" value="<?php echo $row->urundesc;?>" name="pseod" type="text" placeholder="Ürün SEO Description">
+</div>
+
+<div class="form-group">
+<label class="control-label">Ürün İçerik</label>
+<textarea class="ckeditor" name="pcontent"><?php echo $row->urunicerik;?></textarea>
+</div>
+
+<div class="form-group">
+<label class="control-label">Ürün Durumu</label>
+<select name="status" class="form-control">
+<option value="0">Ürün durumu seçiniz</option>
+<option value="1" <?php echo $row->urundurum == 1 ? 'selected' : null;?>>Aktif</option>
+<option value="2" <?php echo $row->urundurum == 2 ? 'selected' : null;?>>Pasif</option>
+</select>
+</div>
+
+<div class="form-group">
+<label class="control-label">Vitrin Durumu</label>
+<select name="pv" class="form-control">
+<option value="0">Vitrin durumu seçiniz</option>
+<option value="1" <?php echo $row->urunvitrin == 1 ? 'selected' : null;?>>Vitrinde görünsün</option>
+<option value="2" <?php echo $row->urunvitrin == 2 ? 'selected' : null;?>>Kategori listesinde görünsün</option>
+</select>
+</div>
+
+
+
+</div>
+<div class="tile-footer">
+<button class="btn btn-primary" name="upp" type="submit"><i class="fa fa-fw fa-lg fa-check-circle"></i>Kayıt Güncelle</button>&nbsp;&nbsp;&nbsp;<a class="btn btn-secondary" href="<?php echo admin;?>/products.php"><i class="fa fa-fw fa-lg fa-times-circle"></i>Listeye Dön</a>
+</div>
+
+</form>
+
+
+</div>
